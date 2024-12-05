@@ -1,5 +1,7 @@
 from functools import cmp_to_key
+
 before_dict = {}
+
 def import_data():
   with open("input.txt") as file:
     file_lines = file.read().splitlines()
@@ -26,17 +28,16 @@ def count_sorted(orders):
     instructions = line.split(",")
     sorted_instructions = sorted(instructions, key=cmp_to_key(custom_sort))
     if instructions == sorted_instructions:
-      sum_correct += int(instructions[int((len(instructions)-1)/2)])
+      sum_correct += int(instructions[(len(instructions)//2)])
     else:
-      sum_incorrect += int(sorted_instructions[int((len(sorted_instructions)-1)/2)])
+      sum_incorrect += int(sorted_instructions[int(len(sorted_instructions)//2)])
   print("Sum correct instructions middle: ", sum_correct)
   print("Sum incorrect instructions middle: ", sum_incorrect)
 
 def custom_sort(key1, key2):
   if key1 in before_dict and key2 in before_dict[key1]:
     return -1
-  else:
-    return 1
+  return 1
 
 def main():
   info = import_data()
