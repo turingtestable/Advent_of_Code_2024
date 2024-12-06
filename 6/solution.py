@@ -2,8 +2,8 @@ import copy, time
 from collections import defaultdict
 
 starting_position = []
-max_x = 0
-max_y = 0
+max_i = 0
+max_j = 0
 loops_created = 0
 
 def import_data():
@@ -13,17 +13,17 @@ def import_data():
 
 def build_map_dict(position_list):
   map = defaultdict(list)
-  global max_x
-  max_x = len(position_list)
-  global max_y
-  max_y = len(position_list[0])
-  for x in range(max_x):
-    for y in range(max_y):
-      contents = position_list[x][y]
-      map[str([x,y])].append(contents)
+  global max_i
+  max_i = len(position_list)
+  global max_j
+  max_j = len(position_list[0])
+  for i in range(max_i):
+    for j in range(max_j):
+      contents = position_list[i][j]
+      map[str([i,j])].append(contents)
       if contents == "^":
         global starting_position
-        starting_position = list([x,y])
+        starting_position = list([i,j])
   return map
 
 def navigate(map):
@@ -52,7 +52,7 @@ def navigate(map):
   return path
 
 def on_map(position):
-  if position[0] >= 0 and position[0] < max_x and position[1] >= 0 and position[1] < max_y:
+  if position[0] >= 0 and position[0] < max_i and position[1] >= 0 and position[1] < max_j:
     return True
   return False
 
