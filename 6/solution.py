@@ -12,7 +12,7 @@ def import_data():
   return list(map(lambda line: list(line), lines))
 
 def build_map_dict(position_list):
-  map = {}
+  map = defaultdict(list)
   global max_x
   max_x = len(position_list)
   global max_y
@@ -20,7 +20,7 @@ def build_map_dict(position_list):
   for x in range(max_x):
     for y in range(max_y):
       contents = position_list[x][y]
-      map[str([x,y])] = [contents]
+      map[str([x,y])].append(contents)
       if contents == "^":
         global starting_position
         starting_position = list([x,y])
@@ -31,19 +31,20 @@ def navigate(map):
   direction_index = 0
   current_position = starting_position
   path = defaultdict(list)
-  while on_map(current_position) and not_visited(map[str(current_position)], direction[direction_index]):
+  while on_map(current_position) and not visited(path[str(current_position)], direction[direction_index]):
     candidate_position = current_position
     #Find the next spot
     while current_position == candidate_position:
+      #Try to move
       candidate_position = move(direction[direction_index], current_position)
-      if (on_map(candidate_position) and "#" in map[str(candidate_position)]) or candidate_position == current_position:
+      #If obstructed turn to the right
+      if ("#" in map[str(candidate_position)]):
         candidate_position = current_position
         direction_index = (direction_index + 1) % 4
-    if not_visited(path[str(current_position)], direction[direction_index]):
+    #Check for loop
+    if not visited(path[str(current_position)], direction[direction_index]):
       path[str(current_position)].append(direction[direction_index])
-    else:
-      break
-    current_position = candidate_position
+      current_position = candidate_position
   if on_map(current_position):
     global loops_created
     loops_created += 1
@@ -65,31 +66,15 @@ def move(direction, position):
   elif direction == "W":
     position = [position[0], position[1] - 1]
   return position
-  
-def count_visited(map):
-  count = 0
-  values = list(map.values())
-  for value in values:
-    if (not_visited(value, "N") and
-        not_visited(value, "E") and
-        not_visited(value, "S") and
-        not_visited(value, "W")):
-      count = count
-    else:
-      count +=1
-  return count
 
-def not_visited(value, direction):
+def visited(value, direction):
   if direction in value:
-    return False
-  return True
+    return True
+  return False
 
 def try_all_obstructions(map, path):
-  count = 0
   for candidate in path.keys():
     if map[candidate] != "^":
-      count+=1
-      print(count)
       map[candidate] = ["#"]
       navigate(map)
       map[candidate] = ["."]
@@ -97,8 +82,8 @@ def try_all_obstructions(map, path):
 def main():
   map = build_map_dict(import_data())
   path = navigate(map)
-  print("Part 1:", len(path.keys()))
   try_all_obstructions(map, path)
+  print("Part 1:", len(path.keys()))
   print("Part 2:", loops_created)
   
 
