@@ -1,4 +1,4 @@
-import copy, time, statistics
+import copy
 
 starting_position = []
 max_x = 0
