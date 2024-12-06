@@ -20,7 +20,6 @@ def insert(new_element, dict):
   else:
     dict[k] = [v]
 
-
 def count_sorted(orders):
   sum_correct = 0
   sum_incorrect = 0
@@ -43,6 +42,5 @@ def main():
   info = import_data()
   build_sort_order(info[0])
   count_sorted(info[1])
-
 
 main()
