@@ -83,20 +83,12 @@ def not_visited(value, direction):
   return True
 
 def try_all_obstructions(map):
-  attempt = 0
-  times = []
   for x in range(max_x):
     for y in range(max_y):
       if map[str([x,y])] != "^" and map[str([x,y])] != "#":
         new_map = copy.deepcopy(map)
         new_map[str([x,y])] = ["#"]
-        attempt += 1
-        print(attempt)
-        start_time = time.time()
         navigate(new_map)
-        end_time = time.time()
-        times.append(end_time - start_time)
-  print(statistics.mean(times))
 
 def main():
   initial_map = build_map_dict(import_data())
