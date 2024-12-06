@@ -84,21 +84,15 @@ def not_visited(value, direction):
     return False
   return True
 
-def visited(value):
-  if len(value) > 0:
-    return True
-  return False
-
 def try_all_obstructions(map, path):
   count = 0
-  for x in range(max_x):
-    for y in range(max_y):
-      if map[str([x,y])] != "^" and map[str([x,y])] != "#" and visited(path[str([x,y])]):
-        count+=1
-        print(count)
-        map[str([x,y])] = ["#"]
-        navigate(map)
-        map[str([x,y])] = ["."]
+  for candidate in path.keys():
+    if map[candidate] != "^":
+      count+=1
+      print(count)
+      map[candidate] = ["#"]
+      navigate(map)
+      map[candidate] = ["."]
 
 def main():
   map = build_map_dict(import_data())
