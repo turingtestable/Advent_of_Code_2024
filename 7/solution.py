@@ -1,4 +1,4 @@
-
+file1 = open("MyFile.txt", "w")
 def import_data():
   with open("input.txt") as file:
     lines = file.read().splitlines()
@@ -15,13 +15,13 @@ def sum_calibration_results(equations):
   sum_calibrations = 0
   sum_concatenation = 0
   for equation in equations:
-    #print(f"{equation[0]}: {equation[1]}")
+    file1.write(f'Trying: {equation[0]}: {equation[1]}|\n')
     if try_operations(equation[0], equation[1]):
       sum_calibrations += equation[0]
     elif try_operations_concat(equation[0], equation[1]):
       sum_concatenation += equation[0]
-    # else:
-    #   print(f'|Fail_case: {equation[0]}: {equation[1]}|')
+    else:
+      file1.write(f'|Failed: {equation[0]}: {equation[1]}|\n')
   print("Part 1: ", sum_calibrations)
   return sum_concatenation + sum_calibrations
 
@@ -39,8 +39,8 @@ def try_operations(target, elements):
   attempt = try_operations(target - elements[-1], elements[:-1]) or \
     try_operations(target/elements[-1], elements[:-1]) or \
     try_operations(target - elements[-1], elements[:-1])
-  #if attempt:
-    #print(f"\tworked: {target}, Elements: {elements}")
+  if attempt:
+    file1.write(f"\tWorked: {target}, Elements: {elements}\n")
   return attempt
 
 def try_operations_concat(target, elements):
@@ -49,8 +49,8 @@ def try_operations_concat(target, elements):
   if target == sum(elements):
     return True
   attempt = try_multiply(target, elements) or try_add(target, elements) or try_concat(target, elements)
-  #if attempt:
-    #print(f"\tworked: {target}, Elements: {elements}")
+  if attempt:
+    file1.write(f"\tWorked: {target}, Elements: {elements}\n")
   return attempt
 
 def try_concat(target, elements):
