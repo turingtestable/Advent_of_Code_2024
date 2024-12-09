@@ -40,7 +40,6 @@ def build_smarter_compacted_file(file):
       file_size = len(file[start_back:back+1])
       index_of_space = find_space_with_dict(file, file_size, start_back)
       if index_of_space >= 0:
-        print("Back: ", file[back] )
         switch_chunks(file, index_of_space, index_of_space + file_size, back, start_back)
       back = start_back - 1
   return file
@@ -71,11 +70,6 @@ def find_space_with_dict(file, space_length, start_back):
         del space_dict[key]
       return index
   return -1
-      
-
-
-        
-
 
 def switch_chunks(file, front, end_front, back, start_back):
   hold_slice = file[front:end_front + 1]
