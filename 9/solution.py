@@ -1,3 +1,5 @@
+from collections import defaultdict
+space_dict = defaultdict(list)
 def import_data():
   with open("input.txt") as file:
     return file.read().splitlines()[0]
@@ -10,6 +12,8 @@ def build_file(diskmap):
       write_char = index//2
     else:
       write_char = "."
+      global space_dict
+      space_dict[int(diskmap[index])].append(len(file))
     for j in range(int(diskmap[index])):
       file.append(write_char)
   return file
@@ -34,7 +38,7 @@ def build_smarter_compacted_file(file):
     else:
       start_back = file.index(file[back])
       file_size = len(file[start_back:back+1])
-      index_of_space = find_space(file, file_size, start_back)
+      index_of_space = find_space_with_dict(file, file_size, start_back)
       if index_of_space >= 0:
         print("Back: ", file[back] )
         switch_chunks(file, index_of_space, index_of_space + file_size, back, start_back)
@@ -53,6 +57,23 @@ def find_space(file, space_length, start_back):
       if len(file[i:i+j]) == space_length:
         return i
   return -1
+
+def find_space_with_dict(file, space_length, start_back):
+  global space_dict
+  keys = list(space_dict)
+  keys.sort()
+  for key in keys:
+    if key >= space_length:
+      index = space_dict[key].pop()
+      if key > space_length:
+        space_dict[key - space_length].append(index + space_length)
+      if space_dict[key] == []:
+        del space_dict[key]
+      return index
+  return -1
+      
+
+
         
 
 
