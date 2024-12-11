@@ -88,13 +88,11 @@ def switch(file, index1, index2):
   hold = file[index1]
   file[index1] = file[index2]
   file[index2] = hold
-    
 
 def main():
   file = build_file(import_data())
   new_file = file.copy()
   print("Part 1: ",calc_checksum(build_compacted_file(file)))
   print("Part 2: ", calc_checksum(build_smarter_compacted_file(new_file)))
-  
 
 main()
