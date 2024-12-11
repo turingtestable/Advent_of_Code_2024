@@ -30,6 +30,11 @@ def fast_blinks_len(stone, num_blinks):
 def main():
   stones = import_data()
   current_total_len = 0 
+  ## INITIAL SOLVE FOR PART 1
+  # for i in range(25):
+  #   stones = blink(stones)
+  # print("Part 1: ", len(stones))
+
   for stone in stones:
     current_total_len += fast_blinks_len(stone, 25)
   print("Part 1: ", current_total_len)
