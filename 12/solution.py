@@ -1,20 +1,14 @@
 import math
 from collections import defaultdict
 
-max_i = 0
-max_j = 0
 visited = set()
 
 def import_data(filename):
   with open(filename) as file:
     lines = file.read().splitlines()
   letter_dict = {}
-  global max_i
-  global max_j
-  max_i = len(lines)
-  max_j = len(lines[0])
   for i in range(len(lines)):
-    for c in range(len(lines[i])):
+    for c in range(len(lines[0])):
       letter_dict[(i,c)]=lines[i][c]
   return letter_dict
 
@@ -74,18 +68,16 @@ def calculate_fence_price(region, crop_dict):
   return perimeter * area
 
 def define_regions(crop_dict):
-  length = int(math.sqrt(len(crop_dict.keys())))
   regions = []
   global visited
   visited = set()
-  for i in range(length):
-    for j in range(length):
-      if (i,j) not in visited:
-        new_region = navigate_region(crop_dict, (i,j), length, [])
-        regions.append(new_region)
+  for loc in crop_dict:
+    if loc not in visited:
+      new_region = navigate_region(crop_dict, loc, [])
+      regions.append(new_region)
   return regions
   
-def navigate_region(crop_dict, loc, length, cur_region):
+def navigate_region(crop_dict, loc, cur_region):
   global visited
   visited.add(loc)
   cur_region.append(loc)
@@ -94,11 +86,13 @@ def navigate_region(crop_dict, loc, length, cur_region):
     if p_loc not in visited and \
         p_loc in crop_dict and \
         crop_dict[loc] == crop_dict[p_loc]:
-      navigate_region(crop_dict, p_loc, length, cur_region)
+      navigate_region(crop_dict, p_loc, cur_region)
   return cur_region
 
 def main():
-  print("Part 2 (sample): ", sum_regions(import_data("sample.txt")))
+  print("\n\nSample")
+  print("Part 2: ", sum_regions(import_data("sample.txt")))
+  print("\nReal")
   print("Part 2: ", sum_regions(import_data("input.txt")))
 
 main()
