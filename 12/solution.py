@@ -27,7 +27,6 @@ def calculate_discount_price(region, crop_dict):
   edge_dict = defaultdict(set)
   area = len(region)
   for loc in region:
-    #Left Edge
     above = (loc[0] - 1, loc[1])
     left = (loc[0], loc[1] - 1)
     below = (loc[0] + 1, loc[1])
@@ -54,7 +53,6 @@ def calculate_discount_price(region, crop_dict):
       num_sides += 1
   #print(f"{crop_dict[region[0]]} has area: {area}  and number of sides: {num_sides}")
   return num_sides * area
-
 
 def calculate_fence_price(region, crop_dict):
   perimeter = 0
