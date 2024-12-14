@@ -17,25 +17,10 @@ def import_data(filename):
 
 def write_iterations_to_file(robots, ticks, max_height, max_width):
   current_min = (-1, sys.maxsize)
-  file1 = open("output.txt", "w")  # append mode
   for i in range(ticks):
     safety = find_safety_factor_after_n(robots, i, max_height, max_width)
     if safety < current_min[1]:
-      print(current_min)
       current_min = (i, safety)
-    file1.write(f"Position after {i} ticks\n")
-    new_locations = defaultdict(int)
-    for robot in robots:
-      new_locations[location_after_ticks(robot, i, max_height, max_width)] = 1
-    for y in range(max_height):
-      for x in range(max_width):
-        if new_locations[(x,y)] == 1:
-          file1.write("X")
-        else:
-          file1.write(" ")
-      file1.write("\n")
-    file1.write("\n\n\n\n")
-  file1.close()
   return current_min[0]
 
 def find_safety_factor_after_n(robots, ticks, max_height, max_width):
@@ -61,6 +46,6 @@ def main():
   real_data = import_data("input.txt")
   print("Part 1(sample): ", find_safety_factor_after_n(import_data("sample.txt"), 100, 7, 11))
   print("Part 1: ", find_safety_factor_after_n(real_data, 100, 103, 101))
-  print("Part 2 see output file at iteration: ", write_iterations_to_file(real_data, 10000, 103, 101))
+  print("Part 2: iteration ", write_iterations_to_file(real_data, 10000, 103, 101))
   
 main()
